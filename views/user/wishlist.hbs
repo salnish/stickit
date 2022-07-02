@@ -1,0 +1,112 @@
+   <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Wishlist</strong></div>
+        </div>
+      </div>
+    </div>
+	{{#if wishlist.products}}
+<div class="site-section ">
+    <div class="container">
+        <!-- Cart item -->
+        <div class="row mb-5">
+            <form class="col-md-12" method="post">
+                <div class="site-blocks-table table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="product-thumbnail">Image</th>
+                                <th class="product-name">Product</th>
+                                <th class="product-price">Price</th>
+                                <th class="product-remove">Remove</th>
+                                <th class="product-addToCart">Add to Cart</th>
+                                
+
+        
+        
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each wishlist.products}}
+                            <tr>
+        
+                                <td class="product-thumbnail">
+                                    <img class="img-fluid" src="/icons/{{pro_Id.image}}" alt="product-image">
+                                </td>
+                                <td class="product-name">
+                                    <h2 class="h5 text-black">{{pro_Id.productName}}</h2>
+                                </td>
+                                <td>₹ {{pro_Id.price}}</td>
+                                {{!-- <td class="column-5"><button><i class="bi bi-trash"></i></button></td> --}}
+                                {{!-- <td class="column-5"><a href="/deletewishlist/{{pro_Id._id}}"><i
+                                            class="bi bi-trash"></i></a></td> --}}
+                                <td>
+                                  <button onclick="removeProductforwishlist('{{pro_Id._id}}')"><i class="bi bi-trash"></i></button>
+                                </td>
+                                <td>
+                                  <button type="submit" class="buy-now btn btn-sm btn-primary" onclick="addTocart('{{pro_Id._id}}')">Add To Cart</button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+        
+        
+                    </table>
+                </div>
+            </form>
+        </div>
+
+
+
+
+    </div>
+</div>
+{{else}}
+
+<section class="cart bgwhite p-t-70 p-b-100">
+	<div class="container">
+        <div class="card m-auto text-center" style="width: 20rem; border:0px">
+  			<img src="/user/images/moto.png" class="card-img-top  m-auto" style="width: 6rem;" alt="...">
+  				<div class="card-body">
+    <h5 class="card-title font-weight-bold">Your wishlist is Empty</h5>
+    <p class="card-title font-weight-bold" >Add something</p>
+    <a href="/" class="btn btn-primary">continue shopping</a>
+  </div>
+</div>
+
+		</div>
+</section>
+	{{/if}}
+
+
+    <script>
+        function removeProductforwishlist(cartId) {
+          $.ajax({
+            url: "/deletewishlist",
+            data: {
+              cart: cartId,
+            },
+            method: "post",
+            success: (Response) => {
+              if (Response) {
+                alert('product removed from cart')
+                location.reload()
+              }
+            }
+          })
+        }
+
+
+
+           function addTocart(proId){
+        $.ajax({
+        url: '/add-tocart/' + proId, 
+        method: 'get',
+        success: (response) => {
+            if (response.status) {
+                alert(response)
+                location.reload();
+            }
+        }
+    })}
+      </script>

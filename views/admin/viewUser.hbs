@@ -1,0 +1,124 @@
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4">
+            <input class="form-control border-1 mt-3" id="myInput" type="search" onkeyup='searchTable()' placeholder="Search">
+        </form>
+    </nav>
+    <!-- Navbar End -->
+    <div class="col-12 col-sm-12 " style="min-height:70%;">
+        <div class="bg-light rounded h-100 p-4">
+            <div class="d-flex justify-content-between">
+                <h6 class="mb-4">User Management</h6>
+                
+
+            </div>
+
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0" id="userTable">
+                    <thead>
+                        <tr class="text-dark">
+                            <th scope="col d-sm-block">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each userData}}
+                        <tr>
+                            <td>{{this.name}}</td>
+                            <td>{{this.email}}</td>
+                            <td>
+                                <div id="refresh" onClick="refreshPage()">
+                                      {{#if block}}
+                                <button onclick="UnBlockuser('{{this._id}}')" class="btn btn-primary">UnBlock</button>
+                                {{else}}
+                                <button onclick="Blockuser('{{this._id}}')" class="btn btn-danger">Block</button>
+                                {{/if}}
+                                </div>
+                              
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                    </br>
+                    Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+
+  
+
+
+<script>
+    function UnBlockuser(proId) {
+        $.ajax({
+            url: '/admin/UnBlockuser/' + proId,
+            method: 'get',
+            success: (response) => {
+             location.reload()
+            }
+        })
+        
+    }
+</script>
+<script>
+    function Blockuser(proId) {
+        $.ajax({
+            url: '/admin/Blockuser/' + proId,
+            method: 'get',
+            success: (response) => {
+                location.reload();
+            }
+        })
+    }
+</script>
+<script>
+    function searchTable() {
+        var input, filter, found, table, tr, td, i, j;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("userTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length; j++) {
+                if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                }
+            }
+            if (found) {
+                tr[i].style.display = "";
+                found = false;
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+</script>

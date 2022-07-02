@@ -1,0 +1,172 @@
+<section class=" gradient-custom pt-5 pb-5">
+  <div class="container  pt-5">
+    <div class="pt-5 pb-5">
+
+    
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-10 col-xl-8">
+        <div class="card" style="border-radius: 10px;">
+          <div class="card-header px-4 py-5 pt-5">
+            <h5 class="text-muted mb-0">Thanks for your Order, <span style="color:#ffa020;">{{order.deliveryDetails.name}}</span><span style="color: #a8729a;"></span>!</h5>
+          </div>
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0" style="color: #ffa020;">Receipt</p>
+              <p class="small text-muted mb-0">Receipt Voucher : {{order._id}}</p>
+            </div>
+
+            {{#each order.product}}
+            <div class="card shadow-0 border mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <img src="/icons/{{this.pro_id.image}}"
+                      class="img-fluid" alt="Phone">
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0">{{this.pro_id.productName}}</p>
+                  </div>
+                  
+                  <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">x {{this.quantity}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">₹ {{pro_id.price}}</p>
+                  </div>
+                  <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small"> 
+                      Status : <span style="color:orangered"> {{this.status}}</span> </p>
+                  </div>
+                  {{!-- <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <a href="/viewOrderSingle/{{this.item}}" class="btn primary-btn">Details</a>
+                  </div> --}}
+                  {{!-- <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <form action="/viewOrderSingle" method="post">
+                    <input type="text"   name="orderId" value="{{../order._id}}"hidden>
+                    <input type="text" name="proId" value="{{this.product}}" hidden>
+                   <button type="submit" class="btn primary-btn" >VIEW</button> 
+                   </form>
+                  </div> --}}
+
+                </div>
+                
+                {{!-- <hr class="mb-4" style="background-color: #e0e0e0; opacity: 0;"> --}}
+                <div class="row d-flex align-items-center">
+                  {{#if this.cancelled}}
+                
+                  {{else}}
+                  <button class="btn btn-danger cancel-order" style="width: 120px; font-size: small ;"
+                    onclick="cancelOrder('{{../order._id}}','{{pro_id._id}}','{{this.subtotal}}','{{../order.grandTotal}}','{{../order.couponPercent}}','{{../order.reFund}}','{{this.quantity}}')">Cancel
+                    Order</button>
+                
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+
+            {{/each}}
+            
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0"><span style="color:#ffa020;">Order Details</span></p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Subtotal</span> ₹ {{order.Total}}</p>
+            </div>
+
+            {{!-- <div class="d-flex justify-content-between pt-2">
+              <p class="text-muted mb-0">Invoice Number : 788152</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p>
+            </div> --}}
+
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Invoice Date :</span> {{order.ordered_on}}</p>
+              {{!-- <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p> --}}
+            </div>
+            <div class="d-flex justify-content-between ">
+              {{!-- <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p> --}}
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Shipping Charge : </span> {{order.ShippingCharge}}</p>
+            </div>
+            {{#if order.coupondiscountedPrice}}
+            <div class="d-flex justify-content-between ">
+              {{!-- <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p> --}}
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Coupon Discount : </span> {{order.coupondiscountedPrice}}</p>
+            </div>
+            {{/if}}
+            <div class="d-flex justify-content-between ">
+              {{!-- <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p> --}}
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Grand Total : </span> ₹ {{order.grandTotal}}</p>
+            </div>
+
+          </div>
+          <div class="card-footer border-0 px-4 py-5 "
+            style="background-color: #ffcd87; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+              paid: <span class="h2 mb-0 ms-2">₹{{order.grandTotal}}</span></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+    // delete popup
+    $('.cancel-order').on('click',function (e) {
+        e.preventDefault();
+        var self = $(this);
+        console.log(self.data('title'));
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+              location.href = self.attr('href');
+            }
+        })
+
+    })
+    $("#success-alert").fadeTo(2000, 500).slideUp(1000, function(){
+    $("#success-alert").slideUp(100);
+});
+</script>
+
+
+<script>
+
+function cancelOrder(orderId, proId, subtotal,totalAmount,couponPercent, reFund,quantity) {
+    $.ajax({
+      url: '/cancel-order',
+      data: {
+        orderId: orderId,
+        proId: proId,
+		subtotal:subtotal,
+		totalAmount:totalAmount,
+		couponPercent:couponPercent,
+		reFund:reFund,
+		quantity:quantity,
+		
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.status) {
+          alert(' Product Cancelled from Order')
+         location.reload()
+        } else {
+			alert("all Product Cancelled from Order")
+			location.href = '/viewOrderProducts/' + orderId
+		}
+      }
+    })
+  }
+</script>

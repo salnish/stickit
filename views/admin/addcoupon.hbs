@@ -1,0 +1,68 @@
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+    </nav>
+    <!-- Navbar End -->
+    <div class="col-12">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Add New Coupon</h6>
+                <form action="/admin/AddCoupon" method="post" >
+                    <div class="mb-3 d-flex col-12">
+                        <div class="mb-3 col-6 me-3">
+                            <label for="exampleInputPassword1" class="form-label">Coupon Name</label>
+                            <input type="text" class="form-control" name="couponName" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3 col-6 ">
+                            <label for="exampleInputPassword1" class="form-label">Coupon Code</label>
+                            <input type="text" class="form-control" name="couponCode" id="exampleInputPassword1">
+                        </div>
+                    </div>
+                
+                    <div class="mb-3 d-flex col-12">
+                        <div class="mb-3 col-6 me-3">
+                            <label for="exampleInputPassword1" class="form-label">Limit</label>
+                            <input type="number" class="form-control" name="limit" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3 col-6 ">
+                            <label for="exampleInputPassword1" class="form-label">Expire Date</label>
+                            <input type="date" class="form-control" name="expirationTime" id="exampleInputPassword1">
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex col-12">
+                        <div class="mb-3 col-6 me-3">
+                            <label for="exampleInputPassword1" class="form-label">Discount</label>
+                            <input type="number" class="form-control" name="discount" id="exampleInputPassword1">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Coupon</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="/">Stickit.pvt.ltd</a>, All Right Reserved.
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                    </br>
+                    Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>

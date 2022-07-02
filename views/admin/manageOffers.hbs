@@ -1,0 +1,152 @@
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4">
+            <input class="form-control border-1 mt-3" id='myInput'  onkeyup='searchTable()'  type="search" placeholder="Search">
+        </form>
+    </nav>
+    <!-- Navbar End -->
+    <div class="col-12">
+        {{#if alert}}
+        <div class="alert alert-warning alert-dismissible fade show" id="success-alert" role="alert">
+            {{alert}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {{/if}}
+        <div class="bg-light rounded h-100 p-4">
+            <div class="d-flex justify-content-between">
+                <h6 class="mb-4">Offers Management</h6>
+                <div>
+                <a href="/admin/addcoupon" class="btn btn-success mb-4">Add Coupon</a>    
+                </div>
+                
+
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0" id="productTable">
+                    <thead>
+                        <tr class="text-dark">
+                            <th scope="col">Coupon Name</th>
+                            <th scope="col">Coupon Code</th>
+                            <th scope="col">Limit</th>
+                            <th scope="col">Discount</th>
+                            <th scope="col">Expiry</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each AllCoupons}}
+                        <tr>
+                            <td>{{this.couponName}}</td>
+                            <td>{{this.couponCode}}</td>
+                            <td>{{this.limit}}</td>
+                            <td>{{this.discount}}</td>
+                            <td>{{this.expirationTime}}</td>
+                            <td>
+                                <button onclick="deletecoupon('{{this._id}}')">  <i class="bi bi-trash delete-button"></i> </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                    </br>
+                    Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+<script>
+    function searchTable() {
+        var input, filter, found, table, tr, td, i, j;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("productTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length; j++) {
+                if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                }
+            }
+            if (found) {
+                tr[i].style.display = "";
+                found = false;
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+
+
+
+</script>
+<script>
+    // delete popup
+    $('.delete-button').on('click',function (e) {
+        e.preventDefault();
+        var self = $(this);
+        console.log(self.data('title'));
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+              location.href = self.attr('href');
+            }
+        })
+
+    })
+    $("#success-alert").fadeTo(2000, 500).slideUp(1000, function(){
+    $("#success-alert").slideUp(100);
+});
+</script>
+<script>
+        function deletecoupon(proId){
+            $.ajax({
+                url:'/admin/deletecoupon/'+proId,
+                method:'get',
+                success:(response)=>{
+                    location.reload()
+                }
+            })
+        }
+    </script>

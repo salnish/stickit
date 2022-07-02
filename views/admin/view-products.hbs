@@ -1,0 +1,146 @@
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4">
+            <input class="form-control border-1 mt-3" id='myInput'  onkeyup='searchTable()'  type="search" placeholder="Search">
+        </form>
+    </nav>
+    <!-- Navbar End -->
+    <div class="col-12">
+        {{#if alert}}
+        <div class="alert alert-warning alert-dismissible fade show" id="success-alert" role="alert">
+            {{alert}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {{/if}}
+        <div class="bg-light rounded h-100 p-4">
+            <div class="d-flex justify-content-between">
+                <h6 class="mb-4">Products Management</h6>
+                <div>
+                    <a href="/admin/addcategory" class="btn btn-primary mb-4 me-2">Add category</a>
+                <a href="/admin/addproduct" class="btn btn-success mb-4">Add Product</a>    
+                </div>
+                
+
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0" id="productTable">
+                    <thead>
+                        <tr class="text-dark">
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Product Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each productData}}
+                        <tr>
+                            <td>{{this.productName}}</td>
+                            <td>{{this.price}}</td>
+                            <td>{{this.stock}}</td>
+                            <td><img style="height: 100px; width: 100px;" src="/icons/{{this.image}}" alt="">
+                            </td>
+                            <td>
+                                <a href="/admin/Editproduct/{{this._id}}" class="btn btn-primary delete-button">Edit</a>
+                                <a href="/admin/deleteproduct/{{this._id}}"  onclick="return confirm('Are you want to delete{{this.fullname}} ?')" class="delete-button btn btn-danger">Delete</a>
+                                
+                            </td>
+                            <td>
+                                <form action="/admin/changeProductType" id="changeType" method="post">
+                                    <input type="text" value="{{this._id}}" name="proId" hidden>
+                                  <select class="form-select form-select-sm mb-3" name="productType"
+                                    aria-label=".form-select-sm example" required>
+                                    <option selected>{{this.productType}}</option>
+                                    <option value="Featured Product" >Featured Product</option>
+                                    <option value="Most Selling" >Most Selling</option>
+                                    <option value="New Arrival" >New Arrival</option>
+                                    <option value="Deal of the Day" >Deal of the Day</option>
+                                </select>
+                                <button class=" btn btn-secondary" type="submit">Change</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                    </br>
+                    Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+<script>
+    function searchTable() {
+        var input, filter, found, table, tr, td, i, j;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("productTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length; j++) {
+                if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                }
+            }
+            if (found) {
+                tr[i].style.display = "";
+                found = false;
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
+
+
+
+</script>
+
+
+
+
+{{!-- <script>
+    
+      $('#changeType').submit((e) => {
+          e.preventDefault()
+          $.ajax({
+            url: '/admin/changeProductType',
+            method: 'post',
+            data: $('#changeType').serialize(),
+            success: (response) => {
+             location.reload();
+            }
+          })
+        });
+</script> --}}

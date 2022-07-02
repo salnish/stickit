@@ -1,0 +1,122 @@
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4 ">
+            <input class="form-control border-1 mt-3" type="search" placeholder="Search">
+        </form>
+    </nav>
+    <!-- Navbar End -->
+
+    <div class="col-12">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-light rounded vh-100 p-4">
+                <div class="d-flex col-xl-12 ">
+                    <div class="col-6 my-3">
+                        <h6 class="mb-4">Add Category</h6>
+                        <form action="/admin/addcategory" method="post" enctype="multipart/form-data">
+                            <div class="mb-3 col-9">
+                                <label for="exampleInputPassword1" class="form-label">Enter the category name</label>
+                                <input type="text" class="form-control" name="category" id="exampleInputPassword1" required>
+                            </div>
+                            <div class="mb-3 col-9">
+                                <label for="exampleInputPassword1" class="form-label">image</label>
+                                <input class="form-control" name="image" type="file" id="formFile" required>
+                            </div>
+                            <p class="text-danger">{{catErr}}</p>
+                            <button type="submit" class="btn btn-primary">Add category</button>
+                        </form>
+                    </div>
+                    <div class="table-responsive col-6 ps-3 my-3">
+                        <table class="table text-center align-middle table-bordered table-hover mb-0 ">
+                            <thead>
+                                <tr class="text-dark">
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each allcategory}}
+                                <tr>
+                                    <td>{{this.category}}</td>
+                                    <td>
+                                        <a href="/admin/deletecategory/{{this._id}}" class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <hr>
+                <div class="d-flex col-xl-12 my-3 ">
+                    <div class="col-6">
+                        <h6 class="mb-4">Add Sub category</h6>
+                        <form action="/admin/addsubcategory" method="post">
+                            <div class="mb-3 col-9">
+                                <label for="exampleInputPassword1" class="form-label">Enter the Subcategory name</label>
+                                <input type="text" class="form-control mb-3" name="Subcategory"
+                                    id="exampleInputPassword1">
+                                <select class="form-select form-select-sm mb-3" name="categoryname"
+                                    aria-label=".form-select-sm example" required>
+                                    <option selected>--category--</option>
+                                    {{#each allcategory}}
+                                    <option value="{{this.category}}" >{{this.category}}</option>
+                                    {{/each}}
+                                </select>
+                                <p class="text-danger">{{subcaterr}}</p>
+
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Sub Category</button>
+                        </form>
+                    </div>
+                    <div class="table-responsive col-6 ps-3 my-3">
+                        <table class="table text-center align-middle table-bordered table-hover mb-0 ">
+                            <thead>
+                                <tr class="text-dark">
+                                    <th scope="col">Sub Category Name</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each allsubcategory}}
+                                <tr>
+                                    <td>{{this.Sub_category}}</td>
+                                    <td>
+                                        <a href="/admin/deletesubcategory/{{this._id}}" class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                    </br>
+                    Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>

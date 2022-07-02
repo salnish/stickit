@@ -1,0 +1,91 @@
+  <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">My Orders</strong></div>
+        </div>
+      </div>
+    </div>
+
+
+       {{#if orders}}
+        <div class="container pt-5">
+            <div class="mt-5 ">
+                <h4>Orders List</h4>
+            </div>
+        </div>
+        <section class="mt-5 mb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-striped" id="user-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Order ID & Date</th>
+                                    
+                                    <th scope="col">User</th>
+                                    
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Payment</th>
+                                    
+                                    <th scope="col">Details</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each orders}}
+                                <tr>
+ 
+                                    <td scope="row">
+                                        {{!-- <div>Time :{{this.date}} </div> --}}
+                                        <div>Date :{{this.ordered_on}}</div>
+                                        <div>Order ID :{{this._id}}</div>
+                                    </td>
+                                    
+                                    <td> 
+                                         
+                                        <div>Address :{{this.deliveryDetails.house}} </div>
+                                        <div>PIN :{{deliveryDetails.pincode}} </div>
+                                        <div>Mobile :{{this.deliveryDetails.number}}</div>
+                                    </td>
+                                    <td><div>RS.{{this.grandTotal}}</div>
+                                    {{#if this.coupondiscountedPrice}}
+                                        <div>Discount : RS.{{this.coupondiscountedPrice}}</div>
+                                        {{/if}}
+                                    </td>
+                                    
+                                    <td>
+                                        <div>Method :{{this.paymentMethod}} </div>
+                                        <div>Status :{{this.payment_status}}</div>
+                                    </td>
+                                    
+                                    <td><a href="/viewOrderProducts/{{this._id}}" class="btn primary-btn">Details</a></td>
+
+
+
+                                </tr>
+                                {{/each}}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {{else}}
+
+<section class="cart bgwhite p-t-70 p-b-100">
+	<div class="container">
+        <div class="card m-auto text-center" style="width: 20rem; border:0px">
+  			<img src="/user/images/moto.png" class="card-img-top  m-auto" style="width: 6rem;" alt="...">
+  				<div class="card-body">
+    <h5 class="card-title font-weight-bold">Your Orders is Empty</h5>
+    <p class="card-title font-weight-bold" >Order something</p>
+    <a href="/" class="btn btn-primary">continue shopping</a>
+  </div>
+</div>
+
+		</div>
+</section>
+	{{/if}}
+    

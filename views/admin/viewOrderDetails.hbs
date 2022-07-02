@@ -1,0 +1,189 @@
+<div class="content">
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+        </a>
+        <a href="#" class="sidebar-toggler flex-shrink-0">
+            <i class="fa fa-bars"></i>
+        </a>
+        <form class="d-none d-md-flex ms-4">
+            <input class="form-control border-1 mt-3" id='myInput'  onkeyup='searchTable()'  type="search" placeholder="Search">
+        </form>
+    </nav>
+    <!-- Navbar End -->
+    <div class="col-12">
+      <section class=" gradient-custom pt-5 pb-5">
+  <div class="container  pt-5">
+    <div class="pt-5 pb-5">
+
+    
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-10 col-xl-8">
+        <div class="card" style="border-radius: 10px;">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0" style="color: #ffa020;">Receipt</p>
+              <p class="small text-muted mb-0">Receipt Voucher : {{order._id}}</p>
+            </div>
+
+            {{#each order.product}}
+            <div class="card shadow-0 border mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-1">
+                        <img src="/icons/{{this.pro_id.image}}" class="img-fluid" alt="image">
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                        <p class="text-muted mb-0">{{this.pro_id.productName}}</p>
+                    </div>
+            
+                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                        <p class="text-muted mb-0 small">x {{this.quantity}}</p>
+                    </div>
+                    <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                        <p class="text-muted mb-0 small">₹ {{this.subtotal}}</p>
+                    </div>
+                    <div class="col-md-7 text-center d-flex justify-content-center align-items-center">
+                        <p class="text-muted mb-0 small">
+                            Status : <span style="color:orangered"> {{this.status}}</span> </p>
+                             <form method="post" action="/admin/changeOrderStatus" class=" d-flex justify-content-center align-items-center">
+            
+                            <select class="form-control ms-2" id="exampleFormControlSelect1" name="orderStatus">
+                                <option>Status</option>
+                                <option>Ordered</option>
+                                <option>Shipped</option>
+                                <option>Out for Delivery</option>
+                                <option>Delivered</option>
+                                <option>Cancelled</option>
+            
+                            </select>
+                            <input type="text" name="orderId" value="{{../order._id}}" hidden>
+                            <input type="text" name="proId" value="{{this._id}}" hidden>
+                            <a><button type="submit" class="btn btn-success ms-2" 
+                                    href="#">Change</button></a>
+            
+                        </form>
+                    </div>
+                    {{!-- <div class="col-md- text-center d-flex align-items-center">
+                        <form method="post" action="/admin/changeOrderStatus">
+            
+                            <select class="form-control" id="exampleFormControlSelect1" name="orderStatus">
+                                <option>Status</option>
+                                <option>Ordered</option>
+                                <option>Shipped</option>
+                                <option>Delivered</option>
+                                <option>Cancelled</option>
+            
+                            </select>
+                            <input type="text" name="orderId" value="{{../order._id}}" hidden>
+                            <input type="text" name="proId" value="{{this._id}}" hidden>
+                            <a><button type="submit" class="btn" style="background-color:rgb(231, 219, 219)"
+                                    href="#">Change</button></a>
+            
+                        </form>
+                    </div> --}}
+                    {{!-- <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                        <a href="/viewOrderSingle/{{this.item}}" class="btn primary-btn">Details</a>
+                    </div> --}}
+                    {{!-- <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                        <form action="/viewOrderSingle" method="post">
+                            <input type="text" name="orderId" value="{{../order._id}}" hidden>
+                            <input type="text" name="proId" value="{{this.product}}" hidden>
+                            <button type="submit" class="btn primary-btn">VIEW</button>
+                        </form>
+                    </div> --}}
+            
+                </div>
+            
+                {{!--
+                <hr class="mb-4" style="background-color: #e0e0e0; opacity: 0;"> --}}
+            
+            </div>
+            </div>
+
+            {{/each}}
+            
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0"><span style="color:#ffa020;">Order Details</span></p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Subtotal</span> ₹ {{order.Total}}</p>
+            </div>
+
+            {{!-- <div class="d-flex justify-content-between pt-2">
+              <p class="text-muted mb-0">Invoice Number : 788152</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p>
+            </div> --}}
+
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Invoice Date :</span> {{order.ordered_on}}</p>
+              {{!-- <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p> --}}
+            </div>
+            <div class="d-flex justify-content-between ">
+              {{!-- <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p> --}}
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Shipping Charge : </span> {{order.ShippingCharge}}</p>
+            </div>
+            <div class="d-flex justify-content-between ">
+              {{!-- <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p> --}}
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Coupon Discount : </span> {{order.couponDiscount}}</p>
+            </div>
+            <div class="d-flex justify-content-between ">
+              {{!-- <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p> --}}
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Grand Total : </span> ₹ {{order.grandTotal}}</p>
+            </div>
+
+          </div>
+          <div class="card-footer border-0 px-4 py-5 "
+            style="background-color: #ffcd87; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+              paid: <span class="h2 mb-0 ms-2">₹{{order.grandTotal}}</span></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+    </div>
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                    </br>
+                    Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+
+<script>
+			$("#statusorm").submit((e) => {
+				e.preventDefault()
+				$.ajax({
+					url: '/admin/changeOrderStatus',
+					method: 'post',
+					data: $('#statusForm').serialize(),
+					success: (Response) => {
+                        
+						if (Response.modifiedCount==1) {
+							location.reload()
+						} else {
+							alert('not changed')
+						}
+					}
+
+				})
+			})
+
+</script>

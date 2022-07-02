@@ -1,0 +1,146 @@
+<style>
+    body {
+        background: #f7f7ff;
+        margin-top: 20px;
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid transparent;
+        border-radius: .25rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+    }
+
+    .me-2 {
+        margin-right: .5rem !important;
+    }
+</style>
+<div class="container">
+    <div class="main-body">
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="/images/usericon.webp" alt="Admin"
+                                class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>{{user.name}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    {{#each Addresses.address}}
+                    <div class="card-body">
+                        <hr>
+                        <div class="row mb-3 mt-4">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">FIRST NAME</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="mb-0">: {{this.fname}}</h6>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">LAST NAME</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="mb-0">: {{this.lname}}</h6>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">HOUSE NAME</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="mb-0">: {{this.house}} </h6>
+                            </div>
+                        </div>
+
+                       
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">TOWN/CITY</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="mb-0">: {{this.towncity}}</h6>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">DISTRICT</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="mb-0">: {{this.district}} </h6>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">STATE</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="mb-0">: {{this.state}} </h6>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">PIN CODE</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="mb-0">: {{this.pincode}} </h6>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">E-MAIL ADDRESS</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="mb-0">:{{this.email}}</h6>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">MOBILE NUMBER</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="mb-0">: {{this.mobile}} </h6>
+                            </div>
+                        </div>
+                        <div class="float-end">
+                            
+                            {{!-- <a href="/editAddress/{{this._id}}" class="btn btn-primary ">Edit Address</a> --}}
+                            <a href="/deleteAddress/{{this._id}}" class="btn btn-danger ">Delete Address</a>
+                        </div>
+                    </div>
+                    {{/each}}  
+                    <hr>
+                    <a href="/addAddress" style="width: 25%;margin: auto;" class="btn btn-success px-4 mb-3 mt-3">Add
+                        New Address</a>
+                    <hr>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

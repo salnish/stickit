@@ -1,0 +1,98 @@
+<section class="vh-100">
+    <div class="container-fluid h-custom vh-100">
+        <div class="row d-flex justify-content-center align-items-center vh-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                    class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form action="/login" id="loginForm" method="post">
+                    <div
+                        class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start my-5">
+                        <p class="lead fw-bold mb-0 me-3">Sign In</p>
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input type="email" name="email" id="email" class="form-control form-control-lg"
+                            placeholder="Enter a valid email address" />
+                        <label class="form-label" for="email">Email address</label>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-3">
+                        <input type="password" id="password" name="password" class="form-control form-control-lg"
+                            placeholder="Enter password" />
+                        <label class="form-label" for="password">Password</label>
+                    </div>
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <a href="/forgotP" class="link-danger">Forgot password ?</a>
+                    </div>
+
+
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" class="btn btn-primary btn-lg"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+                    </div>
+                    {{#if loggErr}}
+                    <h5 class="text-danger">{{loggErr}}</h5>
+                    {{/if}}
+                     {{#if signuperror}}
+                    <h5 class="text-danger">{{signuperror}}</h5>
+                    {{/if}}
+
+                </form>
+                <div class="text-center text-lg-start mt-4 pt-2">
+                    <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/signup"
+                            class="link-danger">Register</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+
+    $(function () {
+
+        // First: Add with default messages
+        //$("#frm-add-data").validate();				
+
+        // Second: Change default messages
+        $("#loginForm").validate({
+            rules: { // to define rules
+
+
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+                    minlength: 4
+                }
+
+
+            },
+            messages: { // to define custom messages
+
+
+                password: {
+                    required: "Enter password",
+                    minlength: "Enter minimum 4 digits"
+                },
+                email: {
+                    required: 'enter Email',
+                    email: "The email should be in the format: abc@domain.tld"
+                }
+            },
+            submitHandler: function (loginform) {
+                if ($(loginform).valid())
+                    loginform.submit();
+                return false; // prevent normal form posting
+            }
+        });
+    });
+</script>

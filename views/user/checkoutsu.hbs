@@ -1,0 +1,225 @@
+ <section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Checkout</h2>
+              <p>Home <span>-</span> Checkout</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+    <section class="checkout_area padding_top">
+    <div class="container">
+
+      <div class="cupon_area">
+        <div class="check_title">
+          <h2>
+            Have a coupon?
+            <a href="#">Click here to enter your code</a>
+          </h2>
+        </div>
+        <input type="text" placeholder="Enter coupon code" />
+        <a class="tp_btn" href="#">Apply Coupon</a>
+      </div>
+      <div class="billing_details">
+        <div class="row">
+          <div class="billing_details ">
+              <div class="row mt-3">
+                <div class="col-lg-8">
+                  <h5  style="color:darkmagenta">
+                  or fill the form Below
+                  {{!-- <a href="#">Click here to login</a> --}}
+                </h5>
+                  {{!-- <h2>or fill the form Below Billing Details</h2> --}}
+                  <form class="row contact_form" action="#" id="checkoutForm"method="post" novalidate="novalidate">
+                    <div class="col-md-12 form-group p_star me-2" style="border: 1px solid #eee;">
+                      
+                      <input type="text" class="form-control" id="fname" name="fname" placeholder="Full name" />
+                      
+                      <input type="text" class="form-control" id="#" name="userId" value="{{Addresses._id}}" hidden/>
+                    </div>
+                    {{!-- <div class="col-md-6 form-group p_star me-2" style="border: 1px solid #eee;">
+                      <input type="text" class="form-control" id="lname" name="lname" placeholder="Last name" />
+                    </div> --}}
+                    {{!-- <div class="col-md-6 form-group p_star">
+                      <input type="text" class="form-control" id="lname" name="name" placeholder="Last name"/>
+                    </div> --}}
+                    <div class="col-md-6 form-group p_star" style="border: 1px solid #eee;">
+                      <input type="text" class="form-control" id="mobile" name="number" placeholder="Phone number" />
+                    </div>
+                    <div class="col-md-6 form-group p_star" style="border: 1px solid #eee;">
+                      <input type="text" class="form-control" id="email" name="email" placeholder="Email Address" />
+                    </div>
+
+                    <div class="col-md-12 form-group " style="border: 1px solid #eee;">
+                      <input type="text" class="form-control" id="house" name="house" placeholder="House Name or Company name" />
+                    </div>
+                    
+                    {{!-- <div class="col-md-12 form-group p_star">
+                      <select class="country_select" name="country">
+                          <option >Country</option>
+                        <option >India</option>
+                        <option >America</option>
+                        <option>Pakistan</option>
+                      </select>
+                    </div> --}}
+                    <div class="col-md-12 form-group p_star" style="border: 1px solid #eee;">
+                      <input type="text" class="form-control" id="localplace" name="localplace" placeholder="Locality" />
+                    </div>
+                    {{!-- <div class="col-md-12 form-group p_star">
+                      <input type="text" class="form-control" id="add2" name="add2" placeholder="Address line 02" />
+                    </div> --}}
+                    <div class="col-md-12 form-group p_star" style="border: 1px solid #eee;">
+                      <input type="text" class="form-control" id="town" name="town" placeholder="Town/City" />
+                    </div>
+                    <div class="col-md-12 form-group p_star" style="border: 1px solid #eee">
+                      {{!-- <select class="country_select" name="district">
+                          <option >District</option>
+                        <option >Malappuram</option>
+                        <option >Calicut</option>
+                        <option >Thrissur</option>
+                      </select> --}}
+                      <input type="text" class="form-control" id="district" name="district" placeholder="District" />
+                    </div>
+                    <div class="col-md-12 form-group" style="border: 1px solid #eee">
+                      <input type="text" class="form-control" id="state" name="state" placeholder="State" />
+                    </div>
+                    <div class="col-md-12 form-group" style="border: 1px solid #eee;">
+                      <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode" value=""/>
+                    </div>
+                    {{!-- <div class="col-md-12 form-group">
+                      <div class="creat_account">
+                        <input type="checkbox" id="f-option2" name="selector" />
+                        <label for="f-option2">Create an account?</label>
+                      </div>
+                    </div> --}}
+                    {{!-- <div class="col-md-12 form-group">
+                      <div class="creat_account">
+                        <h3>Shipping Details</h3>
+                        <input type="checkbox" id="f-option3" name="selector" />
+                        <label for="f-option3">Ship to a different address?</label>
+                      </div>
+                      <textarea class="form-control" name="message" id="message" rows="1"
+                        placeholder="Order Notes"></textarea>
+                    </div> --}}
+                  {{!-- </form> --}}
+                </div>
+                <div class="col-lg-4">
+                  <div class="order_box">
+                    <h2>Your Order</h2>
+                    <ul class="list">
+                      <li>
+                        <a style="color:darkmagenta" href="#">Products
+                          <span>Total</span>
+                        </a>
+                      </li>
+                      {{#each cartItems.products}}
+
+                      <li>
+                        <a href="#">{{this.pro_Id.productName}}
+                          <span class="middle">x{{this.quantity}} </span>
+                          <span class="last">₹ {{this.subtotal}}</span>
+                          
+                        </a>
+                      </li>
+
+                      {{/each}}
+
+                      {{!-- <li>
+                        <a href="#">Fresh Tomatoes
+                          <span class="middle">x 02</span>
+                          <span class="last">$720.00</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">Fresh Brocoli
+                          <span class="middle">x 02</span>
+                          <span class="last">$720.00</span>
+                        </a>
+                      </li> --}}
+                    </ul>
+                    <ul class="list list_2">
+                      <li>
+                        <a href="#">Subtotal
+                          <span>₹ {{netTotal}}</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">Shipping
+                          <span style="color:darkred">  ₹ {{deliveryCharge}}</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">Total
+                          <span> ₹ {{grandTotal}}</span>
+                        </a>
+                      </li>
+                    </ul>
+
+
+                    {{!-- <p>Please select your Payment Method:</p>
+  <input type="radio" id="Cod" name="PaymentMethod" value="Cash On Delivery">
+  <label for="Cod">Cash On Delivery</label><br>
+  <input type="radio" id="Online" name="PaymentMethod" value="Online Payment">
+  <label for="Online">Online Payment</label><br> --}}
+
+
+                    <div class="payment_item">
+                      <div class="radion_btn">
+                        <input type="radio" id="cod" name="paymentMethod" value="cod"/>
+                        <label for="cod">Cash on Delivery</label>
+                        <div class="check"></div>
+                      </div>
+                      <p>
+                        Please send a check to Store Name, Store Street, Store Town,
+                        Store State / County, Store Postcode.
+                      </p>
+                    </div>
+                    <div class="payment_item ">
+                      <div class="radion_btn">
+                        <input type="radio" id="razorpay" name="paymentMethod" value="online"/>
+                        <label for="razorpay">RazorPay</label>
+                        {{!-- <img src="/img1/product/single-product/card.jpg" alt="" /> --}}
+                        <div class="check"></div>
+                      </div>
+                      <p>
+                        Please send a check to Store Name, Store Street, Store Town,
+                        Store State / County, Store Postcode.
+                      </p>
+                    </div>
+                    {{!-- <div class="creat_account">
+                      <input type="checkbox" id="f-option4" name="selector" />
+                      <label for="f-option4">I've read and accept the </label>
+                      <a href="#">terms & conditions*</a>
+                    </div> --}}
+                    <button class="btn_3" type="submit">Proceed to Pay</button>
+                  </div>
+                </div>
+                </form>
+              </div>
+            </div>
+  </section>
+  <!--================End Checkout Area =================-->
+
+  <script>
+       $('#checkoutForm').submit((e)=>{
+    e.preventDefault()
+   $.ajax({
+    url:'/place-order',
+    method:'post',
+    data:$('#checkoutForm').serialize(),
+    success:(response)=>{
+      if(response.codSuccess){
+        location.href='/viewOrderDetails'
+      }
+     alert(response)
+    }
+   })
+  });
+  </script>
