@@ -202,38 +202,7 @@ module.exports = {
     });
   },
 
-  salesreport:()=>{
-    return new Promise (async(resolve,reject)=>{
-      const data = await orderModel.aggregate([
-      
-        {
-          $unwind: "$products"
-        },
-        {
-          $project: {
-            quantity: "$products.quantity",
-            price: "$products.price",
-          },
-        },
-        {
-          $project: {
-            productname: 1,
-            quantity: 1,
-            price: 1,
-          },
-        },
-        {
-          $group: {
-            _id:"$products.pro_id",
-            total: { $sum: "$quantity"  },
-          },
-        },
-      ])
-      console.log('78787878787878878787878788788787878787878787878787887878787')
-      console.log(data)
-      resolve(data)
-    })
-  },
+ 
   getallProducts: () => {
     return new Promise(async (resolve, reject) => {
       let products = await productData

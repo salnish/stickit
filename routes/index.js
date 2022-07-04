@@ -6,6 +6,7 @@ var router = express.Router();
 const user = require('../models/user');
 const cartModel = require("../models/cart")
 const productData = require('../models/products');
+const moment=require('moment')
 const { response } = require('../app');
 const veryfylogin = (req, res, next) => {
   if (req.session.user) {
@@ -424,7 +425,12 @@ router.get("/viewOrderDetails", veryfylogin, async (req, res) => {
 router.get("/allorders", veryfylogin, (req, res) => {
   userHelpers.getallorders(req.session.user._id).then((response) => {
     const orders = response;
+    const user=req.session.user
     console.log(orders.deliveryDetails);
+    orders.forEach(element => {
+      element.ordered_on = moment(element.ordered_on).format("MMM Do YY");
+  
+        });
     res.render("user/viewallOrders", { orders });
   });
 });
@@ -434,6 +440,7 @@ router.get('/viewOrderProducts/:id', veryfylogin, (req, res) => {
   userHelpers.getorderProducts(req.params.id).then((response) => {
     console.log(response);
     const order = response;
+    order.ordered_on=moment(order.ordered_on).format("MMM Do YY"); 
     if (order.product[0].status == "Cancelled"||order.product[0].status == "Delivered") {
       order.product[0].cancelled = true;
     }

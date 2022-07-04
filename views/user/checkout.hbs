@@ -314,12 +314,22 @@
             },
             method: 'post',
             success: (response) => {
-              alert(response)
-              if (response.status) {
+               Swal.fire(
+                        'Order success!',
+                        'Order placed successfully.',
+                        response
+                    ).then(()=>{
+                        if (response.status) {
                 location.href = '/viewOrderDetails'
               } else {
-                alert('payment failed')
+                Swal.fire(
+                        'Payment failed!',
+                        'Order failed.',
+                        
+                    )
               }
+                    })
+            
 
             }
           })

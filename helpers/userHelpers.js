@@ -675,41 +675,41 @@ module.exports = {
           );
         });
         await cartModel.deleteOne({ user: order.userId })
-        if (orderObj) {
-          try {
-            console.log("test");
-            const mailTransporter = nodeMailer.createTransport({
-              host: "smtp.gmail.com",
-              service: "gmail",
-              port: 465,
-              secure: true,
-              auth: {
-                user: 'salnizvlogz@gmail.com',
-                pass: 'mdpxpjugevusgaas',
-              },
-              tls: {
-                rejectUnauthorized: false,
-              },
-            });
+        // if (orderObj) {
+        //   try {
+        //     console.log("test");
+        //     const mailTransporter = nodeMailer.createTransport({
+        //       host: "smtp.gmail.com",
+        //       service: "gmail",
+        //       port: 465,
+        //       secure: true,
+        //       auth: {
+        //         user: 'salnizvlogz@gmail.com',
+        //         pass: 'mdpxpjugevusgaas',
+        //       },
+        //       tls: {
+        //         rejectUnauthorized: false,
+        //       },
+        //     });
 
-            const mailDetails = {
-              from:'salnizvlogz@gmail.com',
-              to: order.email,
-              subject: "Order Placed",
-              text: "just random texts ",
-              html: "<p>hi " + order.fname + " your order "+status,
-            };
-            mailTransporter.sendMail(mailDetails, (err, Info) => {
-              if (err) {
-                console.log(err + " mail not snd");
-              } else {
-                console.log("email has been sent ", Info.response);
-              }
-            });
-          } catch (error) {
-            console.log(error.message + " try error");
-          }
-        }
+        //     const mailDetails = {
+        //       from:'salnizvlogz@gmail.com',
+        //       to: order.email,
+        //       subject: "Order Placed",
+        //       text: "just random texts ",
+        //       html: "<p>hi " + order.fname + " your order "+status,
+        //     };
+        //     mailTransporter.sendMail(mailDetails, (err, Info) => {
+        //       if (err) {
+        //         console.log(err + " mail not snd");
+        //       } else {
+        //         console.log("email has been sent ", Info.response);
+        //       }
+        //     });
+        //   } catch (error) {
+        //     console.log(error.message + " try error");
+        //   }
+        // }
         resolve(orderObj);
       })
     })

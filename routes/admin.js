@@ -6,6 +6,7 @@ const Sub_Category = require("../models/sub_category")
 const adminHelpers = require('../helpers/adminHelpers')
 var Storage = require('../middleware/multer');
 const { response } = require('../app');
+const async = require('hbs/lib/async');
 const verifyAdmin = (req, res, next) => {
   if (req.session.admin) {
     next();
@@ -45,16 +46,9 @@ router.post('/login', (req, res) => {
 
 })
 
-router.get('/land', verifyAdmin, function (req, res, next) {
+router.get('/land', verifyAdmin,async function (req, res, next) {
   res.header('Cache-control', 'no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0,pre-check=0');
-  adminHelpers.salesreport().then((response)=>{
-    console.log(response)
-    res.render('admin/land', { layout: "adminlayout", adminLogged: req.session.admin });
-  })
-
-  
-
-
+  res.render('admin/land', { layout: "adminlayout", adminLogged: req.session.admin });
 });
 router.get('/viewUser', verifyAdmin, function (req, res, next) {
   res.header('Cache-control', 'no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0,pre-check=0');
