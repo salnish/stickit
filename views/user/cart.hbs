@@ -128,8 +128,13 @@
 			},method:'post',
 			success:(response)=>{
 				if(response.removeProduct){
-				alert('product Removed From cart')
-				location.reload();
+			 Swal.fire(
+                        'Product Removed!',
+                        'Product Removed from cart.',
+                        'close()'
+                    ).then(()=>{
+                      location.reload()
+                    })
 				}else{
 				location.reload();	
 
@@ -150,8 +155,14 @@
             method: "post",
             success: (Response) => {
               if (Response) {
-                alert('product removed from cart')
-                location.reload()
+                  Swal.fire(
+                        'Product Removed!',
+                        'Product Removed from cart.',
+                        'close()'
+                    ).then(()=>{
+                      location.reload()
+                    })
+                
               }
             }
           })

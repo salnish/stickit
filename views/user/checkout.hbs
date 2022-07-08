@@ -216,14 +216,14 @@
               <div class="modal-body">
                 <div class="row ">
                   <div class="col-12 ">
-                  <input type="text" name="" id="{{this._id}}" value="{{this.coupon}}"  hidden >
+                  <input type="text" name="" id="{{this._id}}" value="{{this.couponCode}}"  hidden >
                 
                   <div class="card">
                     <div class="card-body">
                     <h1 class="card-title">{{this.couponCode}}</h1>
                     <p class="card-text">You Can get <span style="color:red"> {{this.discount}}%</span> Discount for this Coupon</p>
                     <p>Expired on : {{this.expirationTime}}</p>
-                    <button type="button" onclick="copyFunction('{{this.couponCode}}')" class="btn btn-primary copy-button">Copy</button>
+                    <button type="button" onclick="copyFunction('{{this._id}}')" class="btn btn-primary copy-button">Copy</button>
                     </div>
                   </div>
                   </div>
@@ -361,8 +361,6 @@
      <script>
 
   function copyFunction(couponId) {
-
-      alert("f;sl")
     var copyText = document.getElementById(couponId); copyText.select();
     copyText.setSelectionRange(0, 99999);
     navigator.clipboard.writeText(copyText.value);

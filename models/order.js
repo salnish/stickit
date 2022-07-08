@@ -14,7 +14,7 @@ const orderSchema = new Mongoose.Schema({
             quantity: { type: Number, default: 1 },
             subtotal: { type: Number, default: 0 },
             status: { type: String, default: 'Order placed' },
-            cancelled:{type:Boolean,default:false}
+            orderCancelled:{type:Boolean,default:false},
         },
     ],
     deliveryDetails:

@@ -13,20 +13,17 @@
                       Latest
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                      <a class="dropdown-item" href="#">Men</a>
-                      <a class="dropdown-item" href="#">Women</a>
-                      <a class="dropdown-item" href="#">Children</a>
+                      {{#each categoryData}}
+                      <a class="dropdown-item" href="/shopPage/{{this._id}}">{{this.category}}</a>
+                      {{/each}}
                     </div>
                   </div>
                   <div class="btn-group">
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Reference</button>
+                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Sort</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                      <a class="dropdown-item" href="#">Relevance</a>
-                      <a class="dropdown-item" href="#">Name, A to Z</a>
-                      <a class="dropdown-item" href="#">Name, Z to A</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Price, low to high</a>
-                      <a class="dropdown-item" href="#">Price, high to low</a>
+                      
+                      <a class="dropdown-item" href="/sortPageToHigh/{{productData.[0].category._id}}">Price, low to high</a>
+                      <a class="dropdown-item" href="/sortPageToLow/{{productData.[0].category._id}}">Price, High to Low</a>
                     </div>
                   </div>
                 </div>
@@ -42,7 +39,7 @@
                   </figure>
                   <div class="block-4-text p-4">
                     <h3><a href="/product-details/{{this._id}}">{{this.productName}}</a></h3>
-                    <p class="mb-0">STICKER</p>
+                    <p class="mb-0 text-uppercase">{{this.category.category}}</p>
                     <p class="text-primary font-weight-bold">Rs{{this.price}}.00</p>
                   </div>
                 </div>
@@ -65,10 +62,10 @@
                   <ul>
                     <li><a href="#">&lt;</a></li>
                     <li class="active"><span>1</span></li>
-                    <li><a href="#">2</a></li>
+                    {{!-- <li><a href="#">2</a></li>
                     <li><a href="#">3</a></li>
                     <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                    <li><a href="#">5</a></li> --}}
                     <li><a href="#">&gt;</a></li>
                   </ul>
                 </div>
@@ -81,7 +78,7 @@
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
               <ul class="list-unstyled mb-0">
                  {{#each categoryData}}
-                <li class="mb-1"><a href="/shopPage/{{this._id}}"class="d-flex"><span>{{this.category}}</span> <span class="text-black ml-auto">(2,220)</span></a></li>
+                <li class="mb-1"><a href="/shopPage/{{this._id}}"class="d-flex"><span>{{this.category}}</span> <span class="text-black ml-auto"></span></a></li>
                  {{/each}}
               </ul>
             </div>
@@ -156,3 +153,18 @@
         
       </div>
     </div>
+
+        <script>
+	function sortProduct(catId,sort){
+		$.ajax({
+			url:'/sortProduct',
+			data:{
+				cateId:catId,
+        sorting:sort
+			},method:'post',
+			success:(response)=>{
+				location.reload();	
+			}
+		})
+	} 
+</script>

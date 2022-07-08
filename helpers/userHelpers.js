@@ -217,6 +217,28 @@ module.exports = {
     });
   },
 
+  getCategoryProductsHigh: (catId) => {
+    return new Promise(async (resolve, reject) => {
+    await productData.find({ category: catId }).populate('category').sort({price:1}).lean().then((productD)=>{
+      resolve(productD);
+    }).catch(()=>{
+      reject();
+    })
+    
+    });
+  },
+
+  getCategoryProductsLow: (catId) => {
+    return new Promise(async (resolve, reject) => {
+    await productData.find({ category: catId }).populate('category').sort({price:-1}).lean().then((productD)=>{
+      resolve(productD);
+    }).catch(()=>{
+      reject();
+    })
+    
+    });
+  },
+
   getAddresses: (user) => {
     return new Promise(async (resolve, response) => {
       const Addresses = await User.findOne({ _id: user }).lean();

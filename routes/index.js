@@ -112,6 +112,7 @@ router.post("/signUp", function (req, res, next) {
 router.get('/otp', function (req, res, next) {
   let otpError = req.session.signotpError
   res.render('user/otpSignup', { layout: false, otpError });
+  req.session.signotpError=null
 });
 router.post('/otpverify', async (req, res) => {
   if (req.session.otp == req.body.otpsignup) {
@@ -160,7 +161,7 @@ router.get('/logout', (req, res) => {
 })
 router.get('/forgotP', function (req, res, next) {
   let emailError = req.session.emailError
-  res.render('reset/forgotpassword', { emailError, layout: false });
+  res.render('reset/forgotpassword', { emailError, layout: false ,user:req.session.user});
 });
 router.post("/resetPass", function (req, res, next) {
   userHelpers.doReset(req.body).then((response) => {
@@ -214,19 +215,24 @@ router.post('/resetpassword', async (req, res) => {
 
 
 });
-router.get('/userprofile', veryfylogin, (req, res) => {
+router.get('/userprofile', veryfylogin,async (req, res) => {
+  let cartcount = await userHelpers.getcartcount(req.session.user._id);
   let user = req.session.user;
-  res.render("user/account", { user })
+  let categoryData = await adminHelpers.getallcategory()
+  res.render("user/account", { user,categoryData,cartcount })
 })
 router.get('/address-page', veryfylogin, async (req, res) => {
+  let categoryData = await adminHelpers.getallcategory()
+  let cartcount = await userHelpers.getcartcount(req.session.user._id);
   const Addresses = await userHelpers.getAddresses(req.session.user)
   console.log(Addresses);
   let user = req.session.user;
-  res.render('user/address', { user, Addresses })
+  res.render('user/address', { user, Addresses,categoryData,cartcount })
 })
-router.get("/addAddress", veryfylogin, (req, res) => {
+router.get("/addAddress", veryfylogin,async (req, res) => {
+  let cartcount = await userHelpers.getcartcount(req.session.user._id);
   let user = req.session.user;
-  res.render("user/addAddress", { user })
+  res.render("user/addAddress", { user,cartcount })
 })
 router.post('/addAddress/:id', (req, res) => {
   userHelpers.addAddress(req.params.id, req.body).then((response) => {
@@ -240,26 +246,79 @@ router.get('/deleteAddress/:id', veryfylogin, (req, res) => {
   })
 })
 router.get('/shop', async (req, res, next) => {
+  let cartcount = await userHelpers.getcartcount(req.session.user._id);
   let categoryData = await adminHelpers.getallcategory()
   adminHelpers.getallProducts().then((productData) => {
     console.log(productData);
    
     let user = req.session.user
-    res.render("user/shop", { productData,categoryData, user });
+    res.render("user/shop", { productData,categoryData, user,cartcount });
   });
 });
 router.get("/shopPage/:id", async (req, res) => {
+  let user = req.session.user
+  if(user){
+    let cartcount = await userHelpers.getcartcount(req.session.user._id);
+    let categoryData = await adminHelpers.getallcategory()
+    userHelpers.getCategoryProducts(req.params.id).then((productData) => {
+      
+      
+      console.log(categoryData)
+      res.render("user/shop", { productData,categoryData, user,cartcount });
+    })
+    
+  }else{
+  
   let categoryData = await adminHelpers.getallcategory()
   userHelpers.getCategoryProducts(req.params.id).then((productData) => {
-    let user = req.session.user
+    
     
     console.log(categoryData)
-    res.render("user/shop", { productData,categoryData, user });
+    res.render("user/shop", { productData,categoryData, user, });
+  })
+  }
+
+
+});
+
+router.get("/sortPageToHigh/:id", async (req, res) => {
+  let categoryData = await adminHelpers.getallcategory()
+  userHelpers.getCategoryProductsHigh(req.params.id).then(async(productData) => {
+    let user = req.session.user
+    if(user){
+    let cartcount = await userHelpers.getcartcount(req.session.user._id);
+    console.log(categoryData)
+    res.render("user/shop", { productData,categoryData, user,cartcount});
+    }else{
+      res.render("user/shop", { productData,categoryData, user}); 
+    }
   })
 
 
 
 });
+
+
+router.get("/sortPageToLow/:id", async (req, res) => {
+  let categoryData = await adminHelpers.getallcategory()
+  userHelpers.getCategoryProductsLow(req.params.id).then(async(productData) => {
+    let user = req.session.user
+    if(user){
+      let cartcount = await userHelpers.getcartcount(req.session.user._id);
+      res.render("user/shop", { productData,categoryData, user,cartcount });
+    }else{
+      res.render("user/shop", { productData,categoryData, user });
+    }
+    
+    console.log(categoryData)
+    
+  })
+
+
+
+});
+
+
 router.get("/product-details/:id", async (req, res) => {
   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
   let user = req.session.user
@@ -300,6 +359,8 @@ router.get('/cart', veryfylogin, async (req, res) => {
     const DeliveryCharges = await userHelpers.DeliveryCharge(netTotal);
     const grandTotal = await userHelpers.grandTotal(netTotal, DeliveryCharges);
     let cartItems = await userHelpers.cartItems(req.session.user._id);
+    console.log(cartItems)
+    console.log(cartItems.products)
     console.log("===");
     res.render("user/cart", {
       user,
@@ -318,6 +379,7 @@ router.get('/cart', veryfylogin, async (req, res) => {
     });
   }
 });
+
 router.post('/change-product-quantity', async (req, res, next) => {
   console.log("rgisugiojsiodgr");
   userHelpers.changeproductquantity(req.body, req.session.user).then()
@@ -347,7 +409,7 @@ router.get('/checkout-pag', veryfylogin, async (req, res) => {
   const AllCoupons = await adminHelpers.getAllCoupons();
   console.log('DeliveryCharges')
   console.log(DeliveryCharges);
-  res.render('user/checkout', { Addresses, products,AllCoupons, netTotal, DeliveryCharges, grandTotal })
+  res.render('user/checkout', { Addresses, products,AllCoupons, netTotal, DeliveryCharges, grandTotal,user:req.session.user })
  }).catch(()=>{
   res.redirect('/')
  })
@@ -417,34 +479,34 @@ router.post("/verify-Payment", (req, res) => {
 
 router.get("/viewOrderDetails", veryfylogin, async (req, res) => {
   console.log(req.session.orderId);
-
-  res.render("user/order-success");
+  let cartcount = await userHelpers.getcartcount(req.session.user._id);
+  res.render("user/order-success",{user:req.session.user,cartcount});
 
 });
 
-router.get("/allorders", veryfylogin, (req, res) => {
+router.get("/allorders", veryfylogin,async (req, res) => {
+  let cartcount = await userHelpers.getcartcount(req.session.user._id);
   userHelpers.getallorders(req.session.user._id).then((response) => {
     const orders = response;
     const user=req.session.user
+    
     console.log(orders.deliveryDetails);
     orders.forEach(element => {
       element.ordered_on = moment(element.ordered_on).format("MMM Do YY");
   
         });
-    res.render("user/viewallOrders", { orders });
+    res.render("user/viewallOrders", { orders ,user,cartcount});
   });
 });
 
-router.get('/viewOrderProducts/:id', veryfylogin, (req, res) => {
+router.get('/viewOrderProducts/:id', veryfylogin,async (req, res) => {
   console.log(req.params.id);
+  let cartcount = await userHelpers.getcartcount(req.session.user._id);
   userHelpers.getorderProducts(req.params.id).then((response) => {
     console.log(response);
     const order = response;
     order.ordered_on=moment(order.ordered_on).format("MMM Do YY"); 
-    if (order.product[0].status == "Cancelled"||order.product[0].status == "Delivered") {
-      order.product[0].cancelled = true;
-    }
-    res.render('user/orderdetails', { order, user: req.session.user })
+    res.render('user/orderdetails', { order, user: req.session.user,cartcount })
   })
 })
 
@@ -467,8 +529,9 @@ router.get("/add-Towishlist/:id",veryfylogin, (req, res, next) => {
 
 router.get("/wishlist",veryfylogin, async (req, res) => {
   console.log("gufigsdusiuugsiusdis-----------------");
+  let cartcount = await userHelpers.getcartcount(req.session.user._id);
   let wishlist = await userHelpers.getwishlist(req.session.user);
-  res.render("user/wishlist", { wishlist});
+  res.render("user/wishlist", { wishlist,cartcount,user:req.session.user});
 });
 
 router.post("/deletewishlist",veryfylogin, async (req, res) => {
