@@ -13,6 +13,9 @@ const cartSchema = new Schema({
             ref: 'product',
             required: true
         },
+        productName:{
+            type:String
+        },
         price: {
             type: Number
         },

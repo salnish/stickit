@@ -201,9 +201,13 @@ module.exports = {
 
   getproductdetails: (proId) => {
     return new Promise(async (resolve, reject) => {
-      let product = await productData.findOne({ _id: proId }).populate("Sub_Category").populate("category").lean();
+     await productData.findOne({ _id: proId }).populate("Sub_Category").populate("category").lean().then((product)=>{
       console.log(product);
       resolve(product);
+     }).catch(()=>{
+      reject()
+     })
+      
     });
   },
   getCategoryProducts: (catId) => {
@@ -308,7 +312,7 @@ module.exports = {
           console.log(proId);
           cartModel
             .updateOne(
-              { "products.pro_id": proId, user: userId },
+              { "products.pro_id": proId,'products.productName':product.productName, user: userId },
               {
                 $inc: { "products.$.quantity": 1 },
               }
@@ -324,6 +328,7 @@ module.exports = {
                 $push: {
                   products: {
                     pro_id: proId,
+                    productName:product.productName,
                     price: product.price,
                   },
                 },
@@ -339,6 +344,7 @@ module.exports = {
 
           products: {
             pro_id: proId,
+            productName:product.productName,
             price: product.price,
           },
         });
@@ -805,28 +811,91 @@ module.exports = {
 
 
   cancelorder:(data)=>{
-    console.log("-----------------");
+    // console.log("-----------------");
     console.log(data);
+    order=mongoose.Types.ObjectId(data.orderId);
+    let quantity = parseInt(data.quantity);
+    console.log(parseInt(data.couponPercent));
+
+    discountPrice =
+    parseInt(data.subtotal) -((parseInt(data.couponPercent) * parseInt(data.subtotal)) /100).toFixed(0);
+
+    // console.log("==============================");
+    console.log(discountPrice);
     const status='Cancelled'
     return new Promise (async(resolve,reject)=>{
-      const cancelorder=await ordermodel.findOneAndUpdate({_id:data.orderId,'product.pro_id':data.proId},
+      const cancelorder=await ordermodel.updateMany({_id:data.orderId,'product.pro_id':data.proId},
       {
        $set:{
         "product.$.status":status,
-        cancelled:true,
+        "product.$.orderCancelled":true,
+        
+      },
+    
+      $inc:{
+        grandTotal: -discountPrice,
+        "product.$.subtotal":-(parseInt(data.subtotal)),
+        // totalAmountToBePaid: -discountPrice,
+        reFund: discountPrice,
+        
       }
     },
+    // { upsert: true }
     )
+
     await productData.findOneAndUpdate({_id:data.proId},
       {
         $inc:{
-          Stock:1
+          stock:quantity
         }
-      })
-    resolve()
+      });
 
+      let products = await ordermodel.aggregate([
+        {
+          $match: { _id:order },
+        },
+
+        {
+          $project: {
+            _id: 0,
+            product: 1,
+          },
+        },
+        {
+          $unwind: "$product",
+          //   $unwind:'$deliveryDetails'
+        },
+        // {
+        //   $project: {
+        //     item: "$products.item",
+        //     quantity: "$products.quantity",
+        //     orderStatus: "$products.orderStatus",
+        //   },
+        // },
+        {
+          $match: { "product.orderCancelled": false },
+        },
+      ])
+  console.log(products);
+  if (products.length == 0) {
+    // console.log(
+    //   "agbDDDDDDDDDDDDDDDDDDDDDDDDDDDGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+    // );
+    await ordermodel.updateMany(
+        { _id: data.orderId},
+        {
+          $inc: { reFund: 500, grandTotal: -500 },
+        }
+      );
+    resolve({ status: true });
+  } else {
+    resolve({ status: true });
+  }
+  
+  // resolve() 
     })
-  },
+  }, 
+  
 
 
   

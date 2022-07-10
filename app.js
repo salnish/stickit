@@ -8,6 +8,7 @@ const mongoose =require('mongoose')
 
 const adminRouter = require('./routes/admin');
 const indexRouter = require('./routes/index');
+const errorRouter = require('./routes/error');
 const { session } = require('express-session');
 const Session = require('express-session');
 const hbs=require= require('express-handlebars')
@@ -28,7 +29,8 @@ app.use(Session({secret:"Key",cookie:{maxAge:6000000000}}))
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
-app.use('*/', indexRouter);
+app.use('/error',errorRouter)
+app.use('*/', errorRouter);
 
 
 // catch 404 and forward to error handler

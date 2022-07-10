@@ -49,6 +49,137 @@ module.exports = {
       }
     });
   },
+
+  salesReport:(data)=>{
+    let response={}
+       let {startDate,endDate} = data
+
+  let d1, d2, text;
+  if (!startDate || !endDate) {
+      d1 = new Date();
+      d1.setDate(d1.getDate() - 7);
+      d2 = new Date();
+      text = "For the Last 7 days";
+    } else {
+      d1 = new Date(startDate);
+      d2 = new Date(endDate);
+      text = `Between ${startDate} and ${endDate}`;
+    }
+ 
+
+// Date wise sales report
+const date = new Date(Date.now());
+const month = date.toLocaleString("default", { month: "long" });
+
+       return new Promise(async(resolve,reject)=>{
+
+let salesReport=await orderModel.aggregate([
+
+{
+  $match: {
+    ordered_on: {
+      $lt: d2,
+      $gte: d1,
+    },
+  },
+},
+{
+ $match:{payment_status:'placed'}
+},
+{
+  $group: {
+    _id: { $dayOfMonth: "$ordered_on" },
+    total: { $sum: "$grandTotal" },
+  },
+},
+])
+
+console.log(salesReport);
+
+
+ let brandReport = await orderModel.aggregate([
+   {
+     $match:{payment_status:'placed'}
+    },
+   {
+      $unwind: "$product",
+    },{
+      $project:{
+          brand: "$product.productName",
+          quantity:"$product.quantity"
+      }
+    },
+   
+    {
+      $group:{
+          _id:'$brand',
+          totalAmount: { $sum: "$quantity" },
+    
+      }
+    },
+    { $sort : { quantity : -1 }} ,
+    { $limit : 5 },
+    
+    ])
+    console.log("]]]]]]]]]]]]]]]");
+    console.log(brandReport);
+
+
+
+let orderCount = await orderModel.find({date:{$gt : d1, $lt : d2}}).count()
+
+console.log(orderCount);
+let totalAmounts=await orderModel.aggregate([
+ {
+   $match:{payment_status:'placed'}
+  },
+ {
+   $group:
+   {
+     _id: null,
+     totalAmount: { $sum:"$grandTotal"}
+
+     
+   }
+ }
+])
+
+console.log(totalAmounts);
+
+let totalAmountRefund=await orderModel.aggregate([
+ {
+   $match:{status:'placed'}
+  },
+ {
+   $group:
+   {
+     _id: null,
+     totalAmount: { $sum:'$reFund'
+       }
+
+     
+   }
+ }
+])
+
+console.log('5555555555555555555555555555555555555555555555555555555555555555555555');
+console.log(totalAmountRefund);
+
+
+
+
+response.salesReport=salesReport
+response.brandReport=brandReport
+response.orderCount=orderCount
+response.totalAmountPaid=totalAmounts.totalAmount
+response.totalAmountRefund=totalAmountRefund.totalAmount
+
+resolve(response)      
+       })
+        
+     },
+
+
   // <--get all data from User collection-->
   getallusers: () => {
     return new Promise(async (resolve, reject) => {

@@ -265,6 +265,9 @@ router.get("/shopPage/:id", async (req, res) => {
       
       console.log(categoryData)
       res.render("user/shop", { productData,categoryData, user,cartcount });
+    }).catch(()=>{
+      res.render("user/shop", { categoryData, user,cartcount });
+
     })
     
   }else{
@@ -275,6 +278,9 @@ router.get("/shopPage/:id", async (req, res) => {
     
     console.log(categoryData)
     res.render("user/shop", { productData,categoryData, user, });
+  }).catch(()=>{
+    res.render("user/shop", { categoryData });
+
   })
   }
 
@@ -322,7 +328,7 @@ router.get("/sortPageToLow/:id", async (req, res) => {
 router.get("/product-details/:id", async (req, res) => {
   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
   let user = req.session.user
-  let product = await userHelpers.getproductdetails(req.params.id);
+ await userHelpers.getproductdetails(req.params.id).then(async (product)=>{
   if(user){
     console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
     let cartcount = await userHelpers.getcartcount(req.session.user._id);
@@ -334,7 +340,23 @@ router.get("/product-details/:id", async (req, res) => {
   }else{
     console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
     res.render("user/product", { product, user});
-  }  
+  } 
+ }).catch(async ()=>{
+  if(user){
+    console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+    let cartcount = await userHelpers.getcartcount(req.session.user._id);
+    await userHelpers.checkWishList(req.params.id,user).then((wishlist)=>{
+      console.log(wishlist)
+      console.log("cccccccccccccccccccccccccccccccccccccccccccccccc")
+      res.render("user/product", {  user,wishlist,cartcount});
+    })
+  }else{
+    console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+    res.render("user/product", { user});
+  } 
+
+ })
+ 
 });
 
 //cart

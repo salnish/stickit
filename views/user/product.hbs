@@ -3,12 +3,16 @@
     <div class="row">
       <div class="col-md-12 mb-0"><a href="/">Home</a>
         <span class="mx-2 mb-0">/</span>
+        {{#if product}}
         <strong class="text-black">{{product.productName}}</strong>
+        {{else}}
+        <strong class="text-danger">Product Not Found !</strong>
+        {{/if}}
       </div>
     </div>
   </div>
 </div>
-
+{{#if product}}
 <div class="site-section">
   <div class="container">
     <div class="row">
@@ -71,6 +75,23 @@
     </div>
   </div>
 </div>
+{{else}}
+<div class="page-wrap d-flex flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <span class="display-1 d-block">404</span>
+                <div class="mb-4 lead">The page you are looking for was not found.</div>
+                     {{!-- <h1>{{message}}</h1> --}}
+                    {{!-- <h2>{{error.status}}</h2>
+                    <pre>{{error.stack}}</pre> --}}
+                <a href="/" class="btn btn-link">Back to Home</a>
+           
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
 
 {{!-- <div class="site-section block-3 site-blocks-2 bg-light">
   <div class="container">

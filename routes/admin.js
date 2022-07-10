@@ -85,6 +85,41 @@ router.get('/viewProducts', verifyAdmin, function (req, res, next) {
 
 
 });
+
+router.post('/getData', async (req, res) => {
+  // console.log("================================================================----------");
+  console.log(req.body, 'req.body');
+  const date = new Date(Date.now());
+  const month = date.toLocaleString("default", { month: "long" });
+  adminHelpers.salesReport(req.body).then((data) => {
+
+    let pendingAmount = data.pendingAmount
+    let salesReport = data.salesReport
+    let brandReport = data.brandReport
+    let orderCount = data.orderCount
+    let totalAmountPaid = data.totalAmountPaid
+    let totalAmountRefund = data.totalAmountRefund
+
+    let dateArray = [];
+    let totalArray = 0;
+    // console.log(salesReport);
+    salesReport.forEach((s) => {
+      dateArray.push(`${month}-${s._id} `);
+      totalArray=totalArray+s.total;
+    })
+    let brandArray = [];
+    let sumArray = [];
+    brandReport.forEach((s) => {
+      brandArray.push(s._id);
+      sumArray.push(s.totalAmount);
+    });
+    console.log("", brandArray);
+    // console.log("", sumArray);
+    // console.log("", dateArray);
+    console.log("", totalArray);
+    res.json({totalAmountRefund, dateArray, totalArray,brandArray, sumArray, orderCount, totalAmountPaid, pendingAmount })
+  })
+})
 router.get('/logout', (req, res) => {
   req.session.adminLoggedIn = false;
   req.session.destroy()

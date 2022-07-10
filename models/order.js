@@ -10,6 +10,7 @@ const orderSchema = new Mongoose.Schema({
     product: [
         {
             pro_id: { type: Mongoose.Schema.Types.ObjectId, ref: "product" },
+            productName:{type:String},
             price: { type: Number },
             quantity: { type: Number, default: 1 },
             subtotal: { type: Number, default: 0 },
