@@ -32,18 +32,20 @@
             <div class="row mb-5" style="min-height:200px;">
               {{#if productData}}
                 {{#each productData }}
+                <a href="/product-details/{{this._id}}">
               <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
-                    <a href="/product-details/{{this._id}}"><img src="/icons/{{this.image}}" alt="Image placeholder" class="img-fluid"></a>
+                    <img src="/icons/{{this.image}}" alt="Image placeholder" class="img-fluid">
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="/product-details/{{this._id}}">{{this.productName}}</a></h3>
+                    <h3 class="text-uppercase"><a href="/product-details/{{this._id}}">{{this.productName}}</a></h3>
                     <p class="mb-0 text-uppercase">{{this.category.category}}</p>
                     <p class="text-primary font-weight-bold">Rs{{this.price}}.00</p>
                   </div>
                 </div>
               </div>
+              </a>
               {{/each}}
               {{else}}
               <div class="col-sm-9 col-lg-9 mb-4" data-aos="fade-up">

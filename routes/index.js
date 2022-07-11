@@ -298,6 +298,15 @@ router.get("/sortPageToHigh/:id", async (req, res) => {
     }else{
       res.render("user/shop", { productData,categoryData, user}); 
     }
+  }).catch(async()=>{
+    let user = req.session.user
+    if(user){
+    let cartcount = await userHelpers.getcartcount(req.session.user._id);
+    console.log(categoryData)
+    res.render("user/shop", { categoryData, user,cartcount});
+    }else{
+      res.render("user/shop", { categoryData, user}); 
+    }
   })
 
 
@@ -318,6 +327,15 @@ router.get("/sortPageToLow/:id", async (req, res) => {
     
     console.log(categoryData)
     
+  }).catch(async()=>{
+    let user = req.session.user
+    if(user){
+    let cartcount = await userHelpers.getcartcount(req.session.user._id);
+    console.log(categoryData)
+    res.render("user/shop", { categoryData, user,cartcount});
+    }else{
+      res.render("user/shop", { categoryData, user}); 
+    }
   })
 
 
