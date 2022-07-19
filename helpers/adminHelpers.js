@@ -281,6 +281,7 @@ resolve(response)
   addProduct: (data, image) => {
     return new Promise(async (resolve, reject) => {
       console.log(data);
+      let proName = data.productName.toLowerCase();
       const sub_categorydata = await Sub_Category.findOne({
         Sub_category: data.Sub_category,
       });
@@ -294,7 +295,7 @@ resolve(response)
       // console.log(image1);
 
       const newproduct = await productData({
-        productName: data.productName,
+        productName: proName,
         description: data.description,
         price: data.price,
         discount: data.discount,

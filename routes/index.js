@@ -43,7 +43,9 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/search', async (req, res) => {
-  let searchText = req.body['search_name'];
+  let result = req.body['search_name'];
+  let searchText = result.toLowerCase();
+  console.log(result)
   console.log(searchText + "ooooooooooooooooooo");
   try {
     let products = await adminHelpers.getallProducts()
@@ -52,7 +54,7 @@ router.post('/search', async (req, res) => {
       let productData = products.filter((u) => u.productName.includes(searchText));
       let categoryData = await adminHelpers.getallcategory()
       console.log(productData, "products");
-      res.render("user/shop", { productData, categoryData, user:req.session.user})
+      res.render("user/shop", { productData, categoryData, user:req.session.user})   
 
     }
 

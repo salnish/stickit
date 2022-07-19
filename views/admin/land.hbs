@@ -317,7 +317,7 @@
         method:'post',
         success:(response)=>{
             document.getElementById('totalOrder').innerHTML=response.orderCount
-            document.getElementById('totalAmountPaid').innerHTML='Rs '+response.totalArray
+            document.getElementById('totalAmountPaid').innerHTML='Rs '+response.totalsale
             {{!-- document.getElementById('totalAmountRefund').innerHTML='Rs '+response.totalAmountRefund
             document.getElementById('revenue').innerHTML='Rs '+ (parseInt(response.totalAmountPaid)-parseInt(response.totalAmountRefund)) --}}
 

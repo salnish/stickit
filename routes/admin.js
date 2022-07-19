@@ -101,11 +101,14 @@ router.post('/getData', async (req, res) => {
     let totalAmountRefund = data.totalAmountRefund
 
     let dateArray = [];
-    let totalArray = 0;
+    let totalArray = [];
+    let totalsale=0;
     // console.log(salesReport);
     salesReport.forEach((s) => {
       dateArray.push(`${month}-${s._id} `);
-      totalArray=totalArray+s.total;
+      totalArray.push(s.total);
+      totalsale=totalsale+s.total;
+
     })
     let brandArray = [];
     let sumArray = [];
@@ -117,7 +120,7 @@ router.post('/getData', async (req, res) => {
     // console.log("", sumArray);
     // console.log("", dateArray);
     console.log("", totalArray);
-    res.json({totalAmountRefund, dateArray, totalArray,brandArray, sumArray, orderCount, totalAmountPaid, pendingAmount })
+    res.json({totalAmountRefund, dateArray, totalArray,brandArray, sumArray,totalsale, orderCount, totalAmountPaid, pendingAmount })
   })
 })
 router.get('/logout', (req, res) => {
